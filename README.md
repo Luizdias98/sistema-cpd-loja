@@ -129,10 +129,6 @@ O sistema utiliza o **Local Storage** do navegador para armazenar dados de forma
 - Clique no ícone de **olho** 👁️ para ver detalhes completos
 - Clique no ícone de **lixeira** 🗑️ para excluir um registro
 
-## 🎨 Capturas de Tela
-
-_Em breve: adicionar screenshots do sistema em funcionamento_
-
 ## 🛠️ Scripts Disponíveis
 
 ```bash
