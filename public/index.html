@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema CPD Checklist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1> Sistema CPD Checklist</h1>
+    <p class="subtitle">Controle de Abertura e Fechamento de PDVs</p>
+  </header>
+
+  <!-- CADASTRO DE PDV -->
+  <div class="card">
+    <div class="card-header">
+      <h2> Cadastro de PDV</h2>
+    </div>
+    <div class="card-body">
+      <div class="form-group">
+        <input type="text" id="pdvNome" placeholder="Nome do PDV (ex: PDV 01, Caixa Principal...)">
+        <button onclick="adicionarPDV()" class="btn-primary">
+          <span>➕</span> Adicionar PDV
+        </button>
+      </div>
+      
+      <div class="pdv-lista">
+        <h3>PDVs Cadastrados:</h3>
+        <ul id="listaPdvs"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOVO REGISTRO -->
+  <div class="card">
+    <div class="card-header">
+      <h2> Novo Registro</h2>
+    </div>
+    <div class="card-body">
+      <form id="formRegistro" onsubmit="salvarRegistro(event)">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tipo">Tipo de Registro:</label>
+            <select id="tipo" required>
+              <option value="abertura">🔓 Abertura</option>
+              <option value="fechamento">🔒 Fechamento</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="data">Data:</label>
+            <input type="date" id="data" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inicio">Horário Início:</label>
+            <input type="time" id="inicio" required>
+          </div>
+
+          <div class="form-group">
+            <label for="fim">Horário Fim:</label>
+            <input type="time" id="fim">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="relatorio">Relatório:</label>
+          <textarea id="relatorio" rows="4" placeholder="Descreva as atividades realizadas..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="descricaoOcorrencia">Ocorrência (se houver):</label>
+          <textarea id="descricaoOcorrencia" rows="3" placeholder="Descreva qualquer ocorrência ou problema identificado..."></textarea>
+        </div>
+
+        <!-- UPLOAD DE IMAGENS -->
+        <div class="form-group">
+          <label for="imagens">Anexar Imagens (opcional):</label>
+          <input type="file" id="imagens" accept="image/*" multiple class="file-input">
+          <div id="preview-imagens" class="preview-container"></div>
+        </div>
+
+        <!-- EMAIL STATUS -->
+        <div class="form-group">
+          <label>Status do Email:</label>
+          <button type="button" id="btnEmail" class="btn-toggle btn-vermelho" onclick="toggleEmail()">
+            ❌ Email NÃO Enviado
+          </button>
+        </div>
+
+        <!-- SELEÇÃO DE PDVS -->
+        <div class="form-group">
+          <label>Selecione os PDVs:</label>
+          <button type="button" onclick="marcarTodos()" class="btn-secondary">
+            ☑️ Marcar Todos
+          </button>
+          <button type="button" onclick="desmarcarTodos()" class="btn-secondary">
+            ⬜ Desmarcar Todos
+          </button>
+          <div id="listaPdvsRegistro" class="pdv-checkboxes"></div>
+        </div>
+
+        <button type="submit" class="btn-salvar">
+           Salvar Registro
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FILTROS E BUSCA -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Filtros</h2>
+    </div>
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="filtroData">Data:</label>
+          <input type="date" id="filtroData">
+        </div>
+        
+        <div class="form-group">
+          <label for="filtroPdv">PDV:</label>
+          <select id="filtroPdv">
+            <option value="">Todos os PDVs</option>
+          </select>
+        </div>
+      </div>
+      
+      <button onclick="filtrarRegistros()" class="btn-primary">
+        🔎 Filtrar
+      </button>
+      <button onclick="limparFiltros()" class="btn-secondary">
+        🔄 Limpar Filtros
+      </button>
+    </div>
+  </div>
+
+  <!-- LISTA DE REGISTROS -->
+  <div class="card">
+    <div class="card-header">
+      <h2> Registros</h2>
+      <span id="totalRegistros" class="badge"></span>
+    </div>
+    <div class="card-body">
+      <div id="listaRegistros" class="registros-container"></div>
+      <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        Carregando...
+      </div>
+      <div id="mensagemVazia" class="mensagem-vazia" style="display: none;">
+        📭 Nenhum registro encontrado
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal de Imagens -->
+<div id="modalImagens" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModal()">&times;</span>
+    <div id="modalImagensContent"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
